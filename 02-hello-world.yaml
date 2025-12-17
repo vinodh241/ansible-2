@@ -1,0 +1,7 @@
+- name: Hellworld
+  hosts: local
+  connection: local # it means no need to pass the user name and password
+  tasks:
+  - name: print Hellworld
+    ansible.builtin.debug:
+      msg: "Hellworld"
