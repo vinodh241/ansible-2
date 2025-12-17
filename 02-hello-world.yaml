@@ -5,3 +5,6 @@
   - name: print Hellworld
     ansible.builtin.debug:
       msg: "Hellworld"
+  - name: print the time
+    ansible.builtin.debug:
+      msg: Today is {{ansible_date_time.date}}  
