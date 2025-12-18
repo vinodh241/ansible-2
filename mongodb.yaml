@@ -2,10 +2,20 @@
   become: yes
   hosts: mongodb
   tasks:
-  - name: installing mongodb server
-    ansible.builtin.package:
-      name: mongodb
+  - name: copy mongodb repo
+    ansible.builtin.copy:
+      name: mongo.repo
+      src: /etc/yum.repos.d/mongo.repo
+  - name: install mongodb server
+    ansible.builtin.dnf:
+      name: mongodb-org
       state: present
-      
+  - name: enable mongodb 
+    ansible.builtin.service:
+      name: mongodb
+      enable: yes
+  - name: start mongodb service
+    ansible.builtin.service:
+      name: mongodb
+      state: started
   
- 
