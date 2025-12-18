@@ -30,13 +30,48 @@
       url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
       dest: /tmp/catalogue.zip
 
-  - name: Extract the code 
+  - name: Extract the catalogue code 
     ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
       dest: /app
       remote_src: yes
 
-  - name: 
+  - name: Install dependencies from package.json
+    community.general.npm:
+      path: /app
+  - name: copy catalogue service to systemd
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: systemd deamon re-load
+    ansible.builtin.systemd_service:
+      deamon_reload: true
+  - name: start and enable service module
+    ansible.builtin.service:
+      name: catalogue
+      state: started
+      enabled: yes
+
+  - name: copy mongodb repo
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+  
+  - name: install mongodb client
+    ansible.builtin.dnf:
+      name: mongodb-mongosh
+      state: present
+  - name: load products to data
+    community.mongodb.mongodb_shell:
+      file: "/app/db/master-data.js"
+      idempotent: yes
+      login_host: mongodb.vinodh.site 
+    
+
+
+
+  
 
 
 
