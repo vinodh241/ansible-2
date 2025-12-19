@@ -4,6 +4,7 @@
   tasks:
   - name: disable default redis version
     ansible.builtin.command: dnf module disable redis -y 
+    
   - name: enable redis -7 version
     ansible.builtin.command: dnf module enable redis:7 -y
   
