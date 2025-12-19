@@ -16,7 +16,7 @@
   - name: create a app dirctory 
     ansible.builtin.file:
       path : /app
-      state: dirctory
+      state: directory 
 
   - name: create system user
     ansible.builtin.user:
@@ -24,8 +24,6 @@
       shell: /sbin/nologin
       system: true
       home: /app
-
-
 
   - name: download the code 
     ansible.builtin.get_url:
